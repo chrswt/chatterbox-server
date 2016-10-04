@@ -3,13 +3,16 @@ var bodyParser = require('body-parser');
 var multer = require('multer'); // v1.0.5
 var fs = require('fs');
 
+
+
 // Setup
+var storagePath = './server/storage.json';
 var app = express(); // actually creates HTTP server 
 var storage = {"results": []};
 var upload = multer(); // for parsing multipart/form-data
 
 // Load stored content into memory
-fs.readFile('./storage.json', (err, data) => {
+fs.readFile(storagePath, (err, data) => {
   storage = JSON.parse(data.toString());
 });
 
@@ -42,7 +45,7 @@ app.post('/classes/messages', function(req, res) {
   var postReq = req.body;
   postReq.createdAt = new Date();
   storage.results.push(postReq);
-  fs.writeFile('./storage.json', JSON.stringify(storage), (err, data) => {
+  fs.writeFile(storagePath, JSON.stringify(storage), (err, data) => {
   });
   res.end();
 });

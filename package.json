@@ -9,7 +9,7 @@
     "node": "4.4.3"
   },
   "scripts": {
-    "start": "node server/express.js",
+    "start": "npm install & node server/express.js",
     "start:es6": "babel-node server/basic-server.js",
     "test": "mocha server/spec",
     "test:es6": "mocha --compilers js:babel-register server/spec",
