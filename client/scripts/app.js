@@ -3,7 +3,7 @@ var app = {
 
   //TODO: The current 'handleUsernameClick' function just toggles the class 'friend'
   //to all messages sent by the user
-  server: 'https://api.parse.com/1/classes/messages/',
+  server: 'http://127.0.0.1:3000/classes/messages/',
   username: 'anonymous',
   roomname: 'lobby',
   lastMessageId: 0,
@@ -37,18 +37,20 @@ var app = {
 
   send: function(message) {
     app.startSpinner();
-
+    console.log('inside send');
     // POST the message to the server
     $.ajax({
       url: app.server,
       type: 'POST',
       data: JSON.stringify(message),
       success: function (data) {
+        
         // Clear messages input
         app.$message.val('');
 
         // Trigger a fetch to update the messages, pass true to animate
         app.fetch();
+        console.log('HELLO POST');
       },
       error: function (error) {
         console.error('chatterbox: Failed to send message', error);
@@ -60,7 +62,7 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
-      data: { order: '-createdAt' },
+      // data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(data) {
         // Don't bother if we have nothing to work with
@@ -73,7 +75,8 @@ var app = {
         var mostRecentMessage = data.results[data.results.length - 1];
 
         // Only bother updating the DOM if we have a new message
-        if (mostRecentMessage.objectId !== app.lastMessageId) {
+        // if (mostRecentMessage.objectId !== app.lastMessageId) {
+        if (true) {
           // Update the UI with the fetched rooms
           app.renderRoomList(data.results);
 
@@ -83,6 +86,7 @@ var app = {
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;
         }
+        console.log('fetch success');
       },
       error: function(error) {
         console.error('chatterbox: Failed to fetch messages', error);
@@ -112,6 +116,8 @@ var app = {
     if (animate) {
       $('body').animate({scrollTop: '0px'}, 'fast');
     }
+
+    console.log('render success');
   },
 
   renderRoomList: function(messages) {
@@ -222,6 +228,7 @@ var app = {
 
     // Stop the form from submitting
     event.preventDefault();
+    console.log('submit success');
   },
 
   startSpinner: function() {
