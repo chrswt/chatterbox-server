@@ -13,7 +13,7 @@ this file and include it in basic-server.js so that it actually works.
 **************************************************************/
 
 var fs = require('fs');
-var storage = [];
+var storage = {"results": []};
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
 // This code allows this server to talk to websites that
@@ -33,6 +33,10 @@ var defaultCorsHeaders = {
 };
 
 var handleGetRequest = function(request, response) {
+  var headers = defaultCorsHeaders;
+  headers['Content-Type'] = 'application/json';
+  response.statusCode = 200;
+  response.writeHead(response.statusCode, headers);
 
   fs.readFile('./storage.json', (err, data) => { // TODO if there is no file, create it dynamically
     if (err) {
@@ -41,15 +45,24 @@ var handleGetRequest = function(request, response) {
       storage = JSON.parse(data);
     }
   });
-
-  var headers = defaultCorsHeaders;
-  headers['Content-Type'] = 'application/json'; // TODO what happens when this is something else?
-  response.writeHead(200, headers);
-
+  
   response.end(JSON.stringify(storage));
+  // Weird observations
+  // 1) response.write has some kind of ending mechanism under certain conditions. No error is thrown in live server integration tests
+  // 2) Being inside of fs.readFile callback prevented the response code from being written
 };
 
 var handlePostRequest = function(request, response) {
+
+  if (!storage.results) {
+    fs.readFile('./storage.json', (err, data) => { // TODO if there is no file, create it dynamically
+      if (err) {
+        throw err;
+      } else {
+        storage = JSON.parse(data);
+      }
+    }); 
+  }
 
   var headers = defaultCorsHeaders;
   headers['Content-Type'] = 'application/json';
@@ -58,7 +71,6 @@ var handlePostRequest = function(request, response) {
   request.on('data', function(data) {
     storage.results.push(JSON.parse(data));
   });
-
 
   fs.writeFile('./storage.json', JSON.stringify(storage), (err, data) => {
     if (err) {
