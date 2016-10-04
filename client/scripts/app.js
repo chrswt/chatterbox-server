@@ -42,6 +42,8 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
       data: JSON.stringify(message),
       success: function (data) {
         
@@ -62,7 +64,7 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
-      // data: { order: '-createdAt' },
+      data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(data) {
         // Don't bother if we have nothing to work with
