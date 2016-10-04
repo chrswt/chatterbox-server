@@ -39,14 +39,10 @@ var handleGetRequest = function(request, response) {
   response.writeHead(response.statusCode, headers);
 
   fs.readFile('./storage.json', (err, data) => { // TODO if there is no file, create it dynamically
-    if (err) {
-      throw err;
-    } else {
-      storage = JSON.parse(data);
-    }
+    storage = JSON.parse(data.toString());
+    response.end(JSON.stringify(storage));
   });
   
-  response.end(JSON.stringify(storage));
   // Weird observations
   // 1) response.write has some kind of ending mechanism under certain conditions. No error is thrown in live server integration tests
   // 2) Being inside of fs.readFile callback prevented the response code from being written
@@ -54,31 +50,16 @@ var handleGetRequest = function(request, response) {
 
 var handlePostRequest = function(request, response) {
 
-  if (!storage.results) {
-    fs.readFile('./storage.json', (err, data) => { // TODO if there is no file, create it dynamically
-      if (err) {
-        throw err;
-      } else {
-        storage = JSON.parse(data);
-      }
-    }); 
-  }
-
   var headers = defaultCorsHeaders;
   headers['Content-Type'] = 'application/json';
   response.writeHead(201, headers);
 
   request.on('data', function(data) {
-    storage.results.push(JSON.parse(data));
+    storage.results.push(JSON.parse(data.toString()));
+    fs.writeFile('./storage.json', JSON.stringify(storage), (err, data) => {
+    });
+    response.end(JSON.stringify(storage));
   });
-
-  fs.writeFile('./storage.json', JSON.stringify(storage), (err, data) => {
-    if (err) {
-      throw err;
-    }
-  });
-
-  response.end();
 };
 
 
@@ -130,9 +111,18 @@ module.exports = function(request, response) {
     response.end(); // End the request
   }
 
+  if (request.method === 'OPTIONS') {
+    var headers = defaultCorsHeaders;
+    headers['Content-Type'] = 'application/json';
+    response.statusCode = 200;
+    response.writeHead(response.statusCode, headers);
+    response.end();
+  }
+
   if (request.method === 'GET') {
     handleGetRequest(request, response);
   } else if (request.method === 'POST') {
+    console.log('POST received');
     handlePostRequest(request, response);
   }
 };
