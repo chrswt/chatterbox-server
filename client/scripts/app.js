@@ -51,9 +51,10 @@ var app = {
 
         // Trigger a fetch to update the messages, pass true to animate
         app.fetch();
-        console.log('HELLO POST');
       },
       error: function (error) {
+        app.$message.val('');
+        app.fetch();
         console.error('chatterbox: Failed to send message', error);
       }
     });
@@ -87,7 +88,6 @@ var app = {
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;
         }
-        console.log('fetch success');
       },
       error: function(error) {
         console.error('chatterbox: Failed to fetch messages', error);
@@ -117,8 +117,6 @@ var app = {
     if (animate) {
       $('body').animate({scrollTop: '0px'}, 'fast');
     }
-
-    console.log('render success');
   },
 
   renderRoomList: function(messages) {

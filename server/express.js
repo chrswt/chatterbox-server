@@ -1,9 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var path = require('path');
 var multer = require('multer'); // v1.0.5
 var fs = require('fs');
-
-
 
 // Setup
 var storagePath = './server/storage.json';
@@ -24,6 +23,13 @@ app.use(function(req, res, next) { // passes to all request methods
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+app.use(express.static('client'));
+
+// Serve the HTML page
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/../client/index.html'));
+});
 
 // Routing
 app.get('/classes/messages', function(req, res) { // 'next' parameter is like switch statement
@@ -47,7 +53,7 @@ app.post('/classes/messages', function(req, res) {
   storage.results.push(postReq);
   fs.writeFile(storagePath, JSON.stringify(storage), (err, data) => {
   });
-  res.end();
+  res.end(JSON.stringify({}));
 });
 
 app.listen(process.env.PORT);
