@@ -37,7 +37,6 @@ var app = {
 
   send: function(message) {
     app.startSpinner();
-    console.log('inside send');
     // POST the message to the server
     $.ajax({
       url: app.server,
