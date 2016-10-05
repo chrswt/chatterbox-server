@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 
 // Connection URL
-var url = 'mongodb://chatterbox-s.herokuapp.com:27017/server';
+var url = 'mongodb://chriswt:abc123@ds049456.mlab.com:49456/heroku_m8w03bs2';
 
 var postMessage = function(msgObject) {
   MongoClient.connect(url, function(err, db) {
