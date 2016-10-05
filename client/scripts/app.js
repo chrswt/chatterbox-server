@@ -227,7 +227,6 @@ var app = {
 
     // Stop the form from submitting
     event.preventDefault();
-    console.log('submit success');
   },
 
   startSpinner: function() {
