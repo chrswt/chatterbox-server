@@ -2,11 +2,6 @@ var MongoClient = require('mongodb').MongoClient;
 
 var url = 'mongodb://chris:hackreactor1@ds049446.mlab.com:49446/heroku_np1v0g2w';
 
-// Connection URL
-var url = process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://heroku_np1v0g2w:hackreactor1@ds049446.mlab.com:49446/heroku_np1v0g2w';
-
 var postMessage = function(msgObject) {
   MongoClient.connect(url, function(err, db) {
     var messages = db.collection('messages');
