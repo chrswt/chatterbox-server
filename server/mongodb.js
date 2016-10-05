@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 
 // Connection URL
-var url = 'mongodb://heroku_m8w03bs2:abc123@ds049456.mlab.com:49456/heroku_m8w03bs2';
+var url = ' mongodb://heroku_np1v0g2w:hackreactor1@ds049446.mlab.com:49446/heroku_np1v0g2w';
 
 var postMessage = function(msgObject) {
   MongoClient.connect(url, function(err, db) {
