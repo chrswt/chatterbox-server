@@ -5,9 +5,7 @@ var multer = require('multer'); // v1.0.5
 var mongodb = require('./mongodb');
 
 // Setup
-var storagePath = './server/storage.json';
 var app = express(); // actually creates HTTP server 
-var storage = {"results": []};
 var upload = multer(); // for parsing multipart/form-data
 
 app.use(function(req, res, next) { // passes to all request methods
@@ -50,4 +48,4 @@ app.post('/classes/messages', function(req, res) {
   res.end(JSON.stringify({}));
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
