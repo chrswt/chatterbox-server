@@ -9,7 +9,7 @@
     "node": "4.4.3"
   },
   "scripts": {
-    "start": "npm install & bower install & node server/express.js",
+    "start": "npm install & mongod -dbpath=server/database & node server/express.js",
     "start:es6": "babel-node server/basic-server.js",
     "test": "mocha server/spec",
     "test:es6": "mocha --compilers js:babel-register server/spec",
