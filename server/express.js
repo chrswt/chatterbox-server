@@ -43,11 +43,11 @@ app.get('/classes/messages', function(req, res) {
 app.post('/classes/messages', function(req, res) {
   var status = 201;
 
-  res.setHeader('Last-Modified', (new Date()).toUTCString()); /
+  res.setHeader('Last-Modified', (new Date()).toUTCString());
   var postReq = req.body;
   postReq.createdAt = new Date();
   mongodb.postMessage(postReq);
   res.end(JSON.stringify({}));
 });
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT);
