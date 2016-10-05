@@ -19,6 +19,7 @@ var getMessages = function(callback, orderFlag) {
     if (orderFlag) {
       messages.find().sort({ createdAt: -1 }).toArray(function(err, result) {
       // TODO can also pass in sorting config directly from client
+        if (err) { console.log(err); }
         tempStorage.results = result;
         callback(tempStorage);
       });
