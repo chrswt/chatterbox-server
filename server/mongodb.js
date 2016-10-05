@@ -1,12 +1,18 @@
 var MongoClient = require('mongodb').MongoClient;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 var url = 'mongodb://chris:hackreactor1@ds049446.mlab.com:49446/heroku_np1v0g2w';
 =======
+=======
+>>>>>>> parent of d9d1c5d... Implement mLab mongodb authentication
 // Connection URL
 var url = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://heroku_np1v0g2w:hackreactor1@ds049446.mlab.com:49446/heroku_np1v0g2w';
+<<<<<<< HEAD
+>>>>>>> parent of d9d1c5d... Implement mLab mongodb authentication
+=======
 >>>>>>> parent of d9d1c5d... Implement mLab mongodb authentication
 
 var postMessage = function(msgObject) {
